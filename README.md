@@ -1,17 +1,23 @@
-#Data Science and Data Visualization Project
-Analyzing recent trends of car purchasing patterns
-kaggle link: https://www.kaggle.com/datasets/missionjee/car-sales-report
+# Data Science and Data Visualization Project	
+Topic: Analyzing recent trends of car purchasing patterns
 
-#With the dedication to:
+
+
+ 
+## With the dedication to:
 - Nguyễn Huy Bảo
 - Phạm Thị Cẩm Nhung
 - Nguyễn Ngọc Gia Linh
 - Nguyễn Gia Huy
+  
 
-#Objectives:
+
+## Objectives:
 We aim to create a lively and interactive dashboard to give a fully-functional overview of the car's sales performance. The dashboard will provide visualizations to enable users to monitor sales metrics, identify trends, and make informed decisions.
 
-#Key features of the dashboard may include:
+
+
+## Key features:
 
 - Sales Overview: A high-level summary of sales performance, including total revenue, total units sold, and average order value. This section may also include a comparison with previous periods or targets.
 
