@@ -1,0 +1,32 @@
+.text-green {
+    color: green;
+}
+.menu-card{
+    width: 193px;
+    height: 914px;
+    flex-shrink: 0;
+    background-color: #142A3E;
+    margin: 0 0 0 0;
+}
+.header{
+    padding: 0 0 0 0;
+    background-color: #132438;
+}
+.sidebar {
+    font-size: 18px;
+    padding: 20px;
+}
+.sidebar-heading{
+    font-size: 20px;
+    padding: 10px;
+}
+.border-right{
+    padding: 0 0 0 0;
+    background-color: #142A3E;
+}
+body{
+    background-color: #0A1A2C!important;
+}
+.nav-item .nav-link {
+    font-size: 20px; 
+}

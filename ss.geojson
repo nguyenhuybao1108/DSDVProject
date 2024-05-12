@@ -1,0 +1,75 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [66.008447, 33.836267]
+        },
+        "properties": {
+          "cartodb_id": 35,
+          "pop_2015": 53, 
+          "continent_name": "Asia",
+          "country_code": "AFG",
+          "country_name": "Afghanistan"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-65.178191, -35.387551]
+        },
+        "properties": {
+          "cartodb_id": 36,
+          "pop_2015": 147,
+          "continent_name": "South America",
+          "country_code": "ARG",
+          "country_name": "Argentina"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-53.092482, -10.780859]
+        },
+        "properties": {
+          "cartodb_id": 20,
+          "pop_2015": 406,
+          "continent_name": "South America",
+          "country_code": "BRA",
+          "country_name": "Brazil"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-106.875, 55.078367]
+        },
+        "properties": {
+          "cartodb_id": 53,
+          "pop_2015": 127,
+          "continent_name": "North America",
+          "country_code": "CAN",
+          "country_name": "Canada"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [114.131447, 22.384637]
+        },
+        "properties": {
+          "cartodb_id": 168,
+          "pop_2015": 1849,
+          "continent_name": "Asia",
+          "country_code": "HKG",
+          "country_name": "Hong Kong SAR, China"
+        }
+      }
+    ]
+  }

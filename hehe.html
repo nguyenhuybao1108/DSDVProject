@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSV and GeoJSON Comparison</title>
+</head>
+<body>
+  <script>
+    // Define the URLs of the CSV and GeoJSON files
+    var csvUrl = 'https://raw.githubusercontent.com/Nhung55555/CarsData/main/CarDataTryy.csv';
+    var geojsonUrl = 'https://raw.githubusercontent.com/EBISYS/WaterWatch/master/world_population_2015.geojson';
+
+    // Fetch the CSV file
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csvData => {
+        // Parse the CSV data
+        var csvRows = csvData.split('\n');
+        var csvHeaders = csvRows[0].split(',');
+
+        // Fetch the GeoJSON file
+        fetch(geojsonUrl)
+          .then(response => response.json())
+          .then(geojsonData => {
+            // Loop through the features in the GeoJSON
+            geojsonData.features.forEach(feature => {
+              // Get the country name from the feature properties
+              var countryName = feature.properties.country_name;
+
+              // Find the corresponding row in the CSV file that matches the country name
+              for (var i = 1; i < csvRows.length; i++) {
+                var csvValues = csvRows[i].split(',');
+                var csvCountry = csvValues[0];
+
+                // Compare the country names
+                if (csvCountry === countryName) {
+                  // Print the matching feature in the desired format
+                  var output = JSON.stringify(feature);
+                  console.log(output);
+                  break;
+                }
+              }
+            });
+          });
+      });
+  </script>
+</body>
+</html>
