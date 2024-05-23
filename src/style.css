@@ -1,6 +1,20 @@
 .text-green {
     color: green;
 }
+h1 {
+    font-family: 'Lalezar', cursive;
+}
+
+#sidebar-wrapper {
+    font-family: 'Lalezar', cursive;
+}
+@font-face {
+    font-family: 'Nico Moji';
+    src: url('path/to/NicoMoji-Regular.ttf') format('truetype');
+}
+.LamboGrum {
+    font-family: 'Nico Moji', cursive;
+}
 .menu-card{
     width: 193px;
     height: 914px;
@@ -30,3 +44,23 @@ body{
 .nav-item .nav-link {
     font-size: 20px; 
 }
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+#gaugeChart {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+
+
