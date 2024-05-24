@@ -20,22 +20,41 @@ const ranges = [
 // Initialize the needle and speed elements
 let needle, speedText;
 
-// Define the gauge chart function
-function createGauge(initialSpeed) {
-    const min = 100, max = 250;
+// Function to calculate total sales for each range
+function calculateSales(data) {
+    return ranges.map(range => {
+        const totalSale = data
+            .filter(d => {
+                const topSpeed = +d["Top Speed"];
+                return topSpeed >= range.min && topSpeed <= range.max;
+            })
+            .reduce((total, d) => total + parseFloat(d["Sale Price"]), 0);
+        return { ...range, totalSale };
+    });
+}
+
+// Function to create the gauge
+function createGauge(salesData) {
+    const totalSales = salesData.reduce((total, d) => total + d.totalSale, 0);
 
     // Create a scale for the gauge
     const arcScale = d3.scaleLinear()
-        .domain([min, max])
+        .domain([0, totalSales])
         .range([-Math.PI / 2, Math.PI / 2]);
 
+    let cumulativeSales = 0;
+
     // Draw the arcs for each range
-    ranges.forEach((range) => {
+    salesData.forEach((range, i) => {
+        const startAngle = arcScale(cumulativeSales);
+        const endAngle = arcScale(cumulativeSales + range.totalSale);
+        cumulativeSales += range.totalSale;
+
         const arc = d3.arc()
             .innerRadius(65)
             .outerRadius(100)
-            .startAngle(arcScale(range.min))
-            .endAngle(arcScale(range.max));
+            .startAngle(startAngle)
+            .endAngle(endAngle);
 
         svg.append("path")
             .attr("d", arc)
@@ -45,39 +64,43 @@ function createGauge(initialSpeed) {
     });
 
     // Draw the initial needle
+    const initialRange = salesData[0];
     needle = svg.append("line")
         .attr("x1", width / 2)
         .attr("y1", height / 2)
-        .attr("x2", width / 2 + 80 * Math.cos(arcScale(initialSpeed) - Math.PI / 2))
-        .attr("y2", height / 2 + 80 * Math.sin(arcScale(initialSpeed) - Math.PI / 2))
+        .attr("x2", width / 2 + 80 * Math.cos(arcScale(initialRange.totalSale / 2) - Math.PI / 2))
+        .attr("y2", height / 2 + 80 * Math.sin(arcScale(initialRange.totalSale / 2) - Math.PI / 2))
         .attr("stroke", "#000")
         .attr("stroke-width", 3);
 
-    // Display the initial speed
+    // Display the initial speed range
     speedText = svg.append("text")
         .attr("x", width / 2)
         .attr("y", height / 2 + 30)
         .attr("text-anchor", "middle")
         .attr("font-size", "24px")
         .attr("fill", "#FF5733")
-        .text(`Speed: ${initialSpeed}`);
+        .text(`Speed: ${initialRange.min}-${initialRange.max}`);
 }
 
-// Function to update the needle and speed
-function updateGauge(newSpeed) {
-    const min = 100, max = 250;
+// Function to update the needle and speed range
+function updateGauge(newSpeedRange) {
+    const { min, max } = newSpeedRange;
 
     // Create a scale for the gauge
     const arcScale = d3.scaleLinear()
-        .domain([min, max])
+        .domain([100, 250])
         .range([-Math.PI / 2, Math.PI / 2]);
 
-    // Update the needle position
-    needle.attr("x2", width / 2 + 80 * Math.cos(arcScale(newSpeed) - Math.PI / 2))
-        .attr("y2", height / 2 + 80 * Math.sin(arcScale(newSpeed) - Math.PI / 2));
+    // Calculate the midpoint of the range
+    const midSpeed = (min + max) / 2;
 
-    // Update the speed text
-    speedText.text(`Speed: ${newSpeed}`);
+    // Update the needle position
+    needle.attr("x2", width / 2 + 80 * Math.cos(arcScale(midSpeed) - Math.PI / 2))
+        .attr("y2", height / 2 + 80 * Math.sin(arcScale(midSpeed) - Math.PI / 2));
+
+    // Update the speed text to show the range
+    speedText.text(`Speed: ${min}-${max}`);
 }
 
 // Handle range click to display total sale price and update the gauge
@@ -92,7 +115,7 @@ function handleRangeClick(min, max) {
             })
             .reduce((total, d) => total + parseFloat(d["Sale Price"]), 0);
 
-        console.log(`Total sale for range ${min}-${max}: $${salePrice}`);
+        console.log(`Total sale for range ${min}-${max}: $${Math.round(salePrice)}`);
 
         d3.select("#totalSale").remove();
         svg.append("text")
@@ -102,13 +125,10 @@ function handleRangeClick(min, max) {
             .attr("text-anchor", "middle")
             .attr("font-size", "18px")
             .attr("fill", "#000")
-            .text(`Total Sale: $${salePrice}`);
+            .text(`Total Sale: $${Math.round(salePrice)}`);
 
-        // Calculate the midpoint of the range
-        const midSpeed = (min + max) / 2;
-
-        // Update the gauge with the midpoint speed
-        updateGauge(midSpeed);
+        // Update the gauge with the new range
+        updateGauge({ min, max });
     }).catch(error => {
         console.error('Error fetching or parsing data:', error);
     });
@@ -117,8 +137,8 @@ function handleRangeClick(min, max) {
 // Read the data from the CSV file
 d3.csv("https://raw.githubusercontent.com/Nhung55555/CarsData/main/CarsMockData.csv").then(data => {
     if (data.length > 0) {
-        const initialSpeed = (ranges[0].min + ranges[0].max) / 2; // Use the midpoint of the first range as the initial speed
-        createGauge(initialSpeed);
+        const salesData = calculateSales(data);
+        createGauge(salesData);
     } else {
         console.error('No data available');
     }
