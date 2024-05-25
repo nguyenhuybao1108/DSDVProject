@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,13 +14,18 @@
 </head>
 <body>
     <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton">
-            Select a brand
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Brands
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#" data-value="Brand1">Brand1</a></li>
-            <li><a class="dropdown-item" href="#" data-value="Brand2">Brand2</a></li>
-            <!-- Add more options as needed -->
+            <input class="form-control" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            <li><a class="dropdown-item" href="#about" data-value="BMW">BMW</a></li>
+            <li><a class="dropdown-item" href="#base" data-value="Mercedes">Mercedes</a></li>
+            <li><a class="dropdown-item" href="#blog" data-value="Ford">Ford</a></li>
+            <li><a class="dropdown-item" href="#contact" data-value="Toyota">Toyota</a></li>
+            <li><a class="dropdown-item" href="#custom" data-value="Mitsubishi">Mitsubishi</a></li>
+            <li><a class="dropdown-item" href="#support" data-value="Roll Royces">Roll Royces</a></li>
+            <li><a class="dropdown-item" href="#tools" data-value="Lamborghini">Lamborghini</a></li>
         </ul>
     </div>
 

@@ -14,15 +14,51 @@ var RowConverter = function(d) {
         color: d.Color,
         date: parseTime(d["Purchase Date"]),
         topSpeed: +d["Top Speed"],
+        newCar: d["New Car"],
+        age: +d["Age"],
     };
-
 }
 
 
-export function getFilteredData(brand) {
-    return d3.csv("https://raw.githubusercontent.com/Nhung55555/CarsData/main/CarsMockData.csv", RowConverter).then( data => {
-        return data.filter(function(item) {
-            return item.brand === brand;
+export function getFilteredDataByBrand(brands) {
+    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
+        var newdata = data.filter(function(item) {
+            return brands.includes(item.brand);
         });
+        return newdata;
     });
 }
+export function getFilteredDataByModel(models) {
+    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
+        var newdata = data.filter(function(item) {
+            return models.includes(item.model)
+        });
+        return newdata;
+    });
+}
+export function getFilteredDataByStatus() {
+    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
+        var newdata = data.filter(function(item) {
+            return newCars.includes(item.newCar)
+        });
+        return newdata;
+    });
+}
+export function getFilteredDataByAge(ages) {
+    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
+        var newdata = data.filter(function(item) {
+            return ages.includes(item.country)
+        });
+        return newdata;
+    });
+}
+export function getFilteredDataByGender(gender) {
+    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
+        var newdata = data.filter(function(item) {
+            return item.buyerGender == gender;
+        });
+        return newdata;
+    });
+}
+
+

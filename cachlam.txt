@@ -1,5 +1,5 @@
 Đầu tiên là phải tìm data (Long, Lat, và lượng xe để gắn vô cái pop_2015) trong cái ss.geojson
-Sau đó thì push cái ss.geojson lên git -> chuyển về public achive 
+Sau đó thì push cái ss.geojson lên git -> chuyển về public
 Cop link raw quăng vô index.html r chạy
 Tùy vào cái độ lớn của data mà chia cho nhiu (cũ là 30)
 
