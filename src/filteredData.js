@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+
 var parseTime = d3.timeParse("%dd-%mm-%yyyy");
 var RowConverter = function(d) {
     return {
@@ -16,49 +16,20 @@ var RowConverter = function(d) {
         topSpeed: +d["Top Speed"],
         newCar: d["New Car"],
         age: +d["Age"],
+        year: +d["Year"]
     };
 }
 
-
-export function getFilteredDataByBrand(brands) {
-    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
-        var newdata = data.filter(function(item) {
-            return brands.includes(item.brand);
-        });
-        return newdata;
+export async function getFilteredData(features) {
+    const data = await d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter);
+    var newdata = data.filter(function(item) {
+        return (!features.brands || features.brands.includes(item.brand)) &&
+               (!features.models || features.models.includes(item.model)) &&
+               (!features.colors || features.colors.includes(item.color)) &&
+               (!features.newCars || features.newCars.includes(item.newCar)) &&
+               (!features.age || features.age.includes(item.age)) &&
+               (!features.buyerGender || features.buyerGender.includes)&&
+               (!features.year || features.year.includes(item.year)); 
     });
+    return newdata;
 }
-export function getFilteredDataByModel(models) {
-    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
-        var newdata = data.filter(function(item) {
-            return models.includes(item.model)
-        });
-        return newdata;
-    });
-}
-export function getFilteredDataByStatus() {
-    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
-        var newdata = data.filter(function(item) {
-            return newCars.includes(item.newCar)
-        });
-        return newdata;
-    });
-}
-export function getFilteredDataByAge(ages) {
-    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
-        var newdata = data.filter(function(item) {
-            return ages.includes(item.age)
-        });
-        return newdata;
-    });
-}
-export function getFilteredDataByGender(gender) {
-    return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
-        var newdata = data.filter(function(item) {
-            return item.buyerGender == gender;
-        });
-        return newdata;
-    });
-}
-
-
