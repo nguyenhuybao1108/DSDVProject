@@ -47,7 +47,7 @@ export function getFilteredDataByStatus() {
 export function getFilteredDataByAge(ages) {
     return d3.csv("https://raw.githubusercontent.com/giahuy1310/dsdv-lab/main/Cars%20Mock%20Data%20(add%20year).csv", RowConverter).then( data => {
         var newdata = data.filter(function(item) {
-            return ages.includes(item.country)
+            return ages.includes(item.age)
         });
         return newdata;
     });
