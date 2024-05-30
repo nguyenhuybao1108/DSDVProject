@@ -6,6 +6,8 @@
     <title>Gauge Chart</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    
+
 </head>
 <body>
     <div class="dropdown-container">
@@ -20,7 +22,12 @@
         <select id="genderDropdown" class="dropdown"></select>
         <br>
     </div>
-    <div id="gaugeChart"></div>
+  
+    <div id="gaugeChart">
+        <div id="tooltip">
+            <span id="tooltiptext"></span>
+        </div>
+    </div>
     <script src="speed_filter_test.js"></script>
 </body>
 </html>

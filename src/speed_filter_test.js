@@ -127,8 +127,24 @@ function createGauge(salesData) {
         .attr("d", arc)
         .attr("fill", range.color)
         .attr("transform", `translate(${width / 2}, ${height / 2})`)
-        .on("click", () => handleRangeClick(range.min, range.max));
-  
+        .on("click", () => handleRangeClick(range.min, range.max))
+        .on("mouseover", function(event, d) {
+            const [x, y] = d3.pointer(event);
+            const tooltipX = x + 15;
+            const tooltipY = y - 15;
+            const tooltipText = `Range: ${range.min}-${range.max}<br>Total Sale: $${Math.round(range.totalSale)}`;
+    
+            d3.select("#tooltip")
+              .style("left", `${tooltipX}px`)
+              .style("top", `${tooltipY}px`)
+              .style("opacity", 1)
+              .html(tooltipText);
+          })
+          .on("mouseout", function() {
+            d3.select("#tooltip")
+              .style("opacity", 0);
+          });
+
     // Add legends
     salesData.forEach((range, i) => {
       svg.append("text")
