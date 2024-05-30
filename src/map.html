@@ -62,7 +62,15 @@
               fillColor: "#cc0000",
               fillOpacity: 0.6,
               radius: feature.properties.count / 30,
+            }).bindTooltip(function(){
+              return "Country name: " + feature.properties.country_name + "<br>" + feature.properties.count + " cars";
+            },{
+              permanent: false,
+              direction: 'top',
+              className: 'tooltip-label'
+               
             });
+            
           },
         }
       ).addTo(map);
