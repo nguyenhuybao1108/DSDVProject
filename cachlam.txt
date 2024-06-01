@@ -1,9 +1,0 @@
-Đầu tiên là phải tìm data (Long, Lat, và lượng xe để gắn vô cái pop_2015) trong cái ss.geojson
-Sau đó thì push cái ss.geojson lên git -> chuyển về public achive 
-Cop link raw quăng vô index.html r chạy
-Tùy vào cái độ lớn của data mà chia cho nhiu (cũ là 30)
-
-nguồn:
-https://plainenglish.io/blog/how-to-create-a-web-map-with-leaflet-and-python-de0200757d6c
-
-data mẫu geojson: https://raw.githubusercontent.com/EBISYS/WaterWatch/master/world_population_2015.geojson
