@@ -1,0 +1,15 @@
+/* css/style.css */
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.dropdown {
+    margin: 5px;
+    padding: 5px;
+}
+
+#barChart, #gaugeChart {
+    margin-top: 20px;
+}
