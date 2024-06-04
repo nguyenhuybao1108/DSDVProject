@@ -5,10 +5,10 @@ loadFilteredData().then(filteredData => {
         console.error('No data available after filtering.');
         return;
     }
+    const uniqueMakes = new Set(filteredData.map(d => d.Make));
 
-    // Check the length of the Make filter to decide the grouping key
-    const groupingKey = filteredData.length > 1 ? 'Make' : 'Model';
-
+    // Check the number of unique makes to decide the grouping key
+    const groupingKey = uniqueMakes.size > 1 ? 'Make' : 'Model';
     // Group by the determined key and calculate the average "5-yr Depreciation"
     const groupedData = d3.groups(filteredData, d => d[groupingKey])
         .map(([key, values]) => {
