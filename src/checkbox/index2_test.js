@@ -1,6 +1,7 @@
 // Assuming you have a function drawGaugeChart(filters) similar to drawGraph(filters)
-import { drawGraph } from './graph.js';
+import { drawGraph } from './testchart.js';
 import { getFilteredData } from './filteredData.js';
+import { drawGaugeChart } from './gaugeChart.js';
 
 async function populateDropdown(dropdownId, dataKey, filterKey, drawFunction) {
     const data = await getFilteredData({});
@@ -27,7 +28,8 @@ async function populateDropdown(dropdownId, dataKey, filterKey, drawFunction) {
             const filters = {};
             filters[filterKey] = selectedValues;
             // Redraw the graph and gauge chart with the selected filters
-            drawFunction(filters);
+            drawGraph(filters);
+            drawGaugeChart(filters);
         });
     });
 }
