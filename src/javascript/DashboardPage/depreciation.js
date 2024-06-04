@@ -1,57 +1,29 @@
-const filters = {
-    "Year": [2005, 2007],
-    "Make": ['Suzuki', 'Honda', 'BMW', 'Toyota', 'Ford', 'Buick', 'Infiniti',
-        'Ram', 'GMC', 'Nissan', 'Scion', 'Porsche', 'Lexus', 'Mitsubishi',
-        'Dodge', 'Mazda', 'Land Rover', 'Isuzu', 'Acura', 'Pontiac',
-        'Audi', 'Citroën', 'Saab', 'Mercury', 'Plymouth', 'Maserati',
-        'Cadillac', 'Chevrolet'],
-    "New_car": [true, false],
-    "Age": [20, 30],
-    "Gender": ["Male"]
-};
+import loadFilteredData from './filter.js';
 
-function rowConverter(d) {
-    return {
-        Year: new Date(d['Year']),
-        Make: String(d['Make']),
-        New_car: Boolean(d['New Car']),
-        Age: parseInt(d['Buyer Age']),
-        Gender: String(d['Buyer Gender']),
-        Depreciation: parseFloat(d['5-yr Depreciation']),
-        Model: String(d['Model']) // Assuming there is a 'Model' field in the dataset
-    };
-}
+loadFilteredData().then(filteredData => {
+    if (!filteredData.length) {
+        console.error('No data available after filtering.');
+        return;
+    }
 
-d3.csv("./datasets/Cars Mock Data (add year).csv", rowConverter)
-    .then(data => {
-        // Filter the data based on the specified filters
-        const filteredData = data.filter(d =>
-            filters['Age'][0] <= d.Age && d.Age <= filters['Age'][1] && // Age filter
-            filters['New_car'].includes(d.New_car) && // New_car filter
-            filters['Year'][0] <= d.Year.getFullYear() && d.Year.getFullYear() <= filters['Year'][1] && // Year filter
-            filters['Make'].includes(d.Make) && // Make filter
-            filters['Gender'].includes(d.Gender) // Gender filter
-        );
+    // Check the length of the Make filter to decide the grouping key
+    const groupingKey = filteredData.length > 1 ? 'Make' : 'Model';
 
-        // Check the length of the Make filter to decide the grouping
-        const groupingKey = filters['Make'].length > 1 ? 'Make' : 'Model';
+    // Group by the determined key and calculate the average "5-yr Depreciation"
+    const groupedData = d3.groups(filteredData, d => d[groupingKey])
+        .map(([key, values]) => {
+            const avgDepreciation = d3.mean(values, d => d.Depreciation);
+            return { [groupingKey]: key, AverageDepreciation: avgDepreciation };
+        });
 
-        // Group by the determined key and calculate the average "5-yr Depreciation"
-        const groupedData = d3.groups(filteredData, d => d[groupingKey])
-            .map(([key, values]) => {
-                const avgDepreciation = d3.mean(values, d => d.Depreciation);
-                return { [groupingKey]: key, AverageDepreciation: avgDepreciation };
-            });
+    // Sort the grouped data by AverageDepreciation in ascending order
+    groupedData.sort((a, b) => a.AverageDepreciation - b.AverageDepreciation);
 
-        // Sort the grouped data by AverageDepreciation in ascending order
-        groupedData.sort((a, b) => a.AverageDepreciation - b.AverageDepreciation);
-
-        // Draw the horizontal bar chart
-        drawChart(groupedData, groupingKey);
-    })
-    .catch(error => {
-        console.error('Error loading the CSV file:', error);
-    });
+    // Draw the horizontal bar chart
+    drawChart(groupedData, groupingKey);
+}).catch(error => {
+    console.error('Error loading the filtered data:', error);
+});
 
 function drawChart(data, groupingKey) {
     const margin = { top: 20, right: 70, bottom: 40, left: 90 },

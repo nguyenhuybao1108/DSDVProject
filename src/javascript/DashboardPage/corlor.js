@@ -1,55 +1,25 @@
-const filters = {
-    "Year": [2005, 2007],
-    "Make": ['Suzuki', 'Honda', 'BMW', 'Toyota', 'Ford', 'Buick', 'Infiniti',
-        'Ram', 'GMC', 'Nissan', 'Scion', 'Porsche', 'Lexus', 'Mitsubishi',
-        'Dodge', 'Mazda', 'Land Rover', 'Isuzu', 'Acura', 'Pontiac',
-        'Audi', 'Citroën', 'Saab', 'Mercury', 'Plymouth', 'Maserati',
-        'Cadillac', 'Chevrolet', 'Subaru', 'Mercedes-Benz', 'Volkswagen',
-        'Volvo', 'Lincoln', 'Kia', 'Oldsmobile', 'Hyundai', 'Jeep',
-        'Lamborghini', 'Saturn'],
-    "New_car": [true, false],
-    "Age": [20, 30],
-    "Gender": ["Male"]
-};
+import loadFilteredData from './filter.js';
+loadFilteredData().then(data => {
+    if (!data.length) {
+        console.error('No data available after filtering.');
+        return;
+    }
 
-function rowConverter(d) {
-    return {
-        Year: new Date(d['Year']),
-        Make: String(d['Make']),
-        New_car: Boolean(d['New Car']),
-        Age: parseInt(d['Buyer Age']),
-        Gender: String(d['Buyer Gender']),
-        Color: String(d['Color']),
+    // Group by color and count occurrences
+    const colorCounts = d3.rollup(data, v => v.length, d => d.Color);
+    const colorData = Array.from(colorCounts, ([Color, Count]) => ({ Color, Count }));
 
-    };
-}
+    // Sort the color data by count in descending order
+    colorData.sort((a, b) => b.Count - a.Count);
 
-d3.csv("./datasets/Cars Mock Data (add year).csv", rowConverter)
-    .then(data => {
-        // Filter the data based on the specified filters
-        const filteredData = data.filter(d =>
-            filters['Age'][0] <= d.Age && d.Age <= filters['Age'][1] && // Age filter
-            filters['New_car'].includes(d.New_car) && // New_car filter
-            filters['Year'][0] <= d.Year.getFullYear() && d.Year.getFullYear() <= filters['Year'][1] && // Year filter
-            filters['Make'].includes(d.Make) && // Make filter
-            filters['Gender'].includes(d.Gender) // Gender filter
-        );
+    // Select the top 6 colors
+    const topColors = colorData.slice(0, 6);
 
-        // Group by color and count occurrences
-        const colorCounts = d3.rollup(filteredData, v => v.length, d => d.Color);
-        const colorData = Array.from(colorCounts, ([Color, Count]) => ({ Color, Count }));
+    drawChart(topColors);
+}).catch(error => {
+    console.error('Error loading the filtered data:', error);
+});
 
-        // Sort the color data by count in descending order
-        colorData.sort((a, b) => b.Count - a.Count);
-
-        // Select the top 6 colors
-        const topColors = colorData.slice(0, 6);
-
-        drawChart(topColors);
-    })
-    .catch(error => {
-        console.error('Error loading the CSV file:', error);
-    });
 function drawChart(data) {
     const width = 500;
     const height = 500;
@@ -101,7 +71,7 @@ function drawChart(data) {
                 .style("max-width", "200px")
                 .style("text-align", "center");
         })
-        .on("mouseout", function (d) {
+        .on("mouseout", function () {
             d3.select(this).transition()
                 .duration(200)
                 .style("fill", baseColor);
@@ -130,7 +100,7 @@ function drawChart(data) {
             .duration(200)
             .attr("transform", `translate(${translateX},${translateY})`);
     })
-        .on("mouseout", function (event, d) {
+        .on("mouseout", function () {
             d3.select(this).transition()
                 .duration(200)
                 .attr("transform", "translate(0,0)");
