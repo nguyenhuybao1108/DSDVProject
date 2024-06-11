@@ -29,5 +29,6 @@ export async function getFilteredData(features) {
                (!features.buyerGender || features.buyerGender.includes(item.buyerGender))&&
                (!features.year || (item.year >= features.year[0] && item.year <= features.year[1]));
     });
+    console.log(newdata);
     return newdata;
 }
