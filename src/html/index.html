@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Sales Analysis</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="gaugeChart.js"></script> 
+    <script type="module" src="drawCountrySalesGraph.js"></script>
+    <script type="module" src="colorPieChart.js"></script>
+    <script type="module" src="filterData.js"></script>
+    <script type="module" src="main.js" defer></script>
+    <script type="module" src="depreciation.js"></script>
+    <script type="module" src="model.js"></script>
+    <link rel = "stylesheet" href = "style.css"></link>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <header class="container-fluid pagehead">
+        <div class="row">
+          <div class="col-1">
+            <h3 class="nico-moji-font style = 'color: #'">LamboGrum</h3>
+          </div>
+            <div class="col-11">
+                <h1 class="lalezar-font">CAR SALE REPORT</h1>
+          
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row main">
+            <!-- Sidebar -->
+            <div class="col-lg-2 sidebar">
+                <div class="row">
+                    <nav
+                        class="nav nav-tabs flex-column mb-auto"
+                    >
+                        <a class="nav-link active bg-light"  href="index.html" aria-current="page"
+                            >Home Page</a
+                        >
+                        <a class="nav-link text-white" href="index3.html">Map</a>
+                    </nav>              
+                </div>
+                <div class="row">
+                <h3 class="filterText" style="color: darkorchid;">Filters</h3>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        Select Brand
+                    </button>
+                    <ul class="dropdown-menu" id="brandDropdown" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <input type="text" class="form-control" id="brandSearch" placeholder="Search brands...">
+                        </li>
+                        <!-- Brands will be added here -->
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownNewCarButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        New Car
+                    </button>
+                    <ul class="dropdown-menu" id="newCarDropdown" aria-labelledby="dropdownNewCarButton">
+                        <!-- New Car options will be added here -->
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownGenderButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Buyer Gender
+                    </button>
+                    <ul class="dropdown-menu" id="dropdownGender" aria-labelledby="dropdownGenderButton">
+                        <!-- Buyer Gender options will be added here -->
+                    </ul>
+                </div>
+                <!-- Age Slider -->
+                <div class="wrapper text-white">
+                    <header class="ageHead" >Age</header>
+                    <div class="age-input">
+                        <div class="field text-white">
+                            <span class="nats-font" style = "font-size: 20px;">Min</span>
+                            <input type="number" id="minAge" value="0" min="0" max="150">
+                        </div>
+                        <div class="seperator">-</div>
+                        <div class="field text-white">
+                            <span class="nats-font" style = "font-size: 20px;">Max</span>
+                            <input type="number" id="maxAge" value="150" min="0" max="150">
+                        </div>
+                    </div>
+                    <div class="ageSlider">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="range-input">
+                        <input type="range" class="range-min" min="0" max="150" value = "0">
+                        <input type="range" class="range-max" min="0" max="150" value = "150">
+                    </div>
+                </div>
+                <!-- Year Slider-->
+                <div class="wrapper yearWrapper text-white">
+                    <header class="yearHead">Year</header>
+                    <div class="year-input">
+                        <div class="field text-white">
+                            <span class="nats-font" style = "font-size: 20px;">From</span>
+                            <input type="number" id="minYear" value="2000" min="2000" max="2024">
+                        </div>
+                        <div class="seperator">-</div>
+                        <div class="field text-white">
+                            <span class="nats-font" style = "font-size: 20px;">To</span>
+                            <input type="number" id="maxYear" value="2024" min="2000" max="2024">
+                        </div>
+                    </div>
+                    <div class="yearSlider">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="year-range-input">
+                        <input type="range" class="range-min " min="2000" max="2024" value = "2000">
+                        <input type="range" class="range-max " min="2000" max="2024" value = "2024">
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Main content -->
+             <div class="col-lg-10"> 
+            <div class="row">
+                <div class="col">
+                        <div id="countrySalesChart"></div>
+                    </div>
+                <div class="col">
+                        <div id="depreciationChart"></div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="donutChart" ></div>
+                </div>
+                <div class="col-md-4">
+                    <div id="gaugeChart"></div>
+                </div>
+                <div class="col-md-4 pieChartContainer">
+                    <div id="pieChart"></div>
+                </div>
+               
+            </div>
+           </div>
+        </div>
+            
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+</body>
+</html>
